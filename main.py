@@ -1,23 +1,12 @@
-import random
+from config import TOKEN, trigger_items
+
 from random import choice
 
 import telebot
+from telebot import types
 
-from telebot import types, AdvancedCustomFilter
-
-from config import TOKEN, trigger_text, trigger_items
-
-
-class TextFilter(AdvancedCustomFilter):
-    # Фильтр для проверки содержания текста от пользователя
-    key = 'text_contains'
-
-    def check(self, message, text):
-        return message.text.contains(text)
 
 bot = telebot.TeleBot(TOKEN)
-check_text = telebot.custom_filters.SimpleCustomFilter
-mes = TextFilter()
 
 
 @bot.callback_query_handler(func=lambda call: 'YesNo:' in call.data)
@@ -54,7 +43,10 @@ def bot_id(message):
 def bot_auto_call(message):
     for key, caller in trigger_items:
         if any((word in message.text.lower()) for word in key):
-            bot.send_message(message.chat.id, text=choice(caller))
+            if isinstance(caller, tuple):
+                bot.send_message(message.chat.id, text=choice(caller))
+            else:
+                bot.send_message(message.chat.id, text=caller)
 
 
 bot.infinity_polling()
