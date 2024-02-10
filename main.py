@@ -23,23 +23,32 @@ def save_age(call):
 #     keyboard.add(
 #         types.InlineKeyboardButton(text='Нет', callback_data='YesNo:no'))
 #     bot.send_message(message.chat.id, 'Да или нет?', reply_markup=keyboard)
+@bot.message_handler(commands=['help'])
+def bot_help(message):
+    bot.send_message(message.chat.id, 'Помоги(')
+
+
+@bot.message_handler(commands=['id'])
+def bot_id(message):
+    bot.send_message(message.chat.id, message.chat.id)
 
 
 @bot.message_handler(commands=['start'])
 def start(message, call_text=text_data.start_user_text):
     if message.chat.id == 386637507:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('_Отметка об обновлении каталога_')
-        btn2 = types.KeyboardButton("Наличие и цены")
-        btn3 = types.KeyboardButton("Когда будет в наличии...")
-        btn4 = types.KeyboardButton("Наши контакты")
-        btn5 = types.KeyboardButton("Доступные предзаказы")
-        btn6 = types.KeyboardButton("Сотрудничество")
-        btn7 = types.KeyboardButton("График работы")
-        btn8 = types.KeyboardButton("Связь с руководителем")
+        btn1 = types.KeyboardButton('_Отметка об обновлении каталога<>_')
+        btn2 = types.KeyboardButton('Наличие и цены')
+        btn3 = types.KeyboardButton('Когда будет в наличии...')
+        btn4 = types.KeyboardButton('Наши контакты')
+        btn5 = types.KeyboardButton('Доступные предзаказы')
+        btn6 = types.KeyboardButton('Сотрудничество')
+        btn7 = types.KeyboardButton('График работы')
+        btn8 = types.KeyboardButton('Связь с руководителем')
         markup.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8)
         bot.send_message(message.chat.id,
-                         text='Добрый день, администратор, чем я могу помочь?', reply_markup=markup)
+                         text='Добрый день, администратор, чем я могу помочь?',
+                         reply_markup=markup)
     else:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton('Доставка')
@@ -53,7 +62,7 @@ def start(message, call_text=text_data.start_user_text):
         btn9 = types.KeyboardButton('Как нас найти')
         markup.add(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
         bot.send_message(message.chat.id,
-                         call_text.format(message.from_user),
+                         text=call_text.format(message.from_user),
                          reply_markup=markup)
 
 
@@ -81,7 +90,7 @@ def func(message):
 
     elif message.text == 'Когда будет в наличии...':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton('Буррата и страчателла')
+        btn1 = types.KeyboardButton('Буррата и Страчателла')
         btn2 = types.KeyboardButton('Сырные десерты')
         btn3 = types.KeyboardButton('Плавленый сыр')
         btn4 = types.KeyboardButton('Другие сыры')
@@ -94,29 +103,22 @@ def func(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         back = types.KeyboardButton(text_data.back_to_menu_text)
         markup.add(back)
-        bot.send_message(message.chat.id,
-                         text=text_data.text_call_info, reply_markup=markup)
+        bot.send_message(message.chat.id, text=text_data.text_call_info,
+                         reply_markup=markup)
 
     elif message.text == 'Как нас найти':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         back = types.KeyboardButton(text_data.back_to_menu_text)
         markup.add(back)
-        bot.send_message(message.chat.id,
-                         text=text_data.text_address_info, reply_markup=markup)
+        bot.send_message(message.chat.id, text=text_data.text_address_info,
+                         reply_markup=markup)
 
     elif message.text == 'Доступные предзаказы':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         back = types.KeyboardButton(text_data.back_to_menu_text)
         markup.add(back)
-        bot.send_message(message.chat.id,
-                         text=text_data.preorder_info, reply_markup=markup)
-
-    elif message.text == 'Доступные предзаказы':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        back = types.KeyboardButton(text_data.back_to_menu_text)
-        markup.add(back)
-        bot.send_message(message.chat.id,
-                         text=text_data.preorder_info, reply_markup=markup)
+        bot.send_message(message.chat.id, text=text_data.preorder_info(),
+                         reply_markup=markup)
 
     elif message.text == 'График работы':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -125,39 +127,67 @@ def func(message):
         bot.send_message(message.chat.id,
                          text=text_data.text_worktime, reply_markup=markup)
 
-    elif message.text == '_Отметка об обновлении каталога_':
+    elif message.text == 'Сотрудничество':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_cooperation_info,
+                         reply_markup=markup)
+
+    elif message.text == 'Связь с руководителем':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.manager_contacts_text,
+                         reply_markup=markup)
+
+    elif message.text == 'Доставка по Томску':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_delivery_tomsk,
+                         reply_markup=markup)
+
+    elif message.text == 'Доставка в другие регионы':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_delivery_other,
+                         reply_markup=markup)
+
+    elif message.text == 'Буррата и Страчателла':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_burrata,
+                         reply_markup=markup)
+
+    elif message.text == 'Плавленый сыр':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_melted_cheese,
+                         reply_markup=markup)
+
+    elif message.text == 'Сырные десерты':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        back = types.KeyboardButton(text_data.back_to_menu_text)
+        markup.add(back)
+        bot.send_message(message.chat.id, text=text_data.text_desserts,
+                         reply_markup=markup)
+
+    elif message.text == '_Отметка об обновлении каталога<>_':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         back = types.KeyboardButton(text_data.back_to_menu_text)
         markup.add(back)
         date_catalog_refresh()
         bot.send_message(message.chat.id,
-                         text='Информация о последнем изменении каталога '
-                              'обновлена', reply_markup=markup)
+                         text=text_data.text_refresh_catalog_info,
+                         reply_markup=markup)
 
-    elif (message.text == 'Как меня зовут?'):
-        bot.send_message(message.chat.id, 'У меня нет имени..')
-    #
-    # elif message.text == "Что я могу?":
-    #     bot.send_message(message.chat.id, text="Поздороваться с читателями")
-    #
-    # elif (message.text == "Вернуться в главное меню"):
-    #     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    #     button1 = types.KeyboardButton("👋 Поздороваться")
-    #     button2 = types.KeyboardButton("❓ Задать вопрос")
-    #     markup.add(button1, button2)
-    #     bot.send_message(message.chat.id, text="Вы вернулись в главное меню", reply_markup=markup)
-    # else:
-    #     bot.send_message(message.chat.id, text="На такую комманду я не запрограммировал..")
-
-
-@bot.message_handler(commands=['help'])
-def bot_help(message):
-    bot.send_message(message.chat.id, 'Помоги(')
-
-
-@bot.message_handler(commands=['id'])
-def bot_id(message):
-    bot.send_message(message.chat.id, message.chat.id)
+    else:
+        bot.send_message(message.chat.id,
+                         text="Пожалуйста, выберите существующую команду")
 
 
 @bot.message_handler(content_types=['text'])
