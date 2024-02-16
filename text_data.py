@@ -7,7 +7,7 @@ def refresh_catalog():
                                  'Последнее обновление информации на сайте было'
                                  ' {}'.format(openpyxl.
                                               load_workbook('Database.xlsx').
-                                              active.cell(2, 2).value))
+                                              active['A2'].value))
     return text_catalog_refresh_date
 
 
